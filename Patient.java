@@ -1,25 +1,20 @@
 Public class Patient(IdNbr, IdName){
-	String IdNbr, IdName;
+	String idNbr, idName, div;
 
-	Public Patient(IdNbr, IdName){		//konstruktor
-	this.IdName=IdName;
-	this.IdNbr=IdNbr;
+	Public Patient(idNbr, idName, div){		//ger en patient persnummer, namn, och avdelning på sjukhuset
+	this.idName=idName;
+	this.idNbr=idNbr;
+	this.div=div;
 	}
 
 	public journal getJournal() {
-	//hitta och returnera journalen för personnummret
+	//hitta och returnera journalen för personen
 	}
 
+	public String getidNbr(){
+		return idNbr;
 	}
-	public boolean deleteJournal(){
-		//Ta bort journalen.
-		//True om man hade rätighet till det och det gick vägen
-	}
-
-	public String getIdNbr(){
-		return IdNbr;
-	}
-	public String getIdName(){
-		return IdName;
+	public String getidName(){
+		return idName;
 	}
 }
