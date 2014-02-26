@@ -5,10 +5,11 @@ Public class Patient(IdNbr, IdName){
 	this.idName=idName;
 	this.idNbr=idNbr;
 	this.div=div;
+	journal journal = new journal();
 	}
 
 	public journal getJournal() {
-	//hitta och returnera journalen för personen
+	return journal;	
 	}
 
 	public String getidNbr(){
