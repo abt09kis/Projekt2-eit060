@@ -15,14 +15,15 @@ public class Users{
 	}
 
 
-	public Nurse findDoctor(String id){
+	public Nurse findNurse(String id){
 		return NurseMap.get(id);
 	}
 
-	public Patient findDoctor(String id){
-		return PatientMap.get(id);
+	public Patient findPatient(String id){
+		return patientMapMap.get(id);
 	}
 
-
-	
+	public void deletePatient(String id){
+		patientMap.remove(id);
+	}
 }
