@@ -13,9 +13,13 @@
 		//Lägg till en person i registret av journaler genom att lägga in dens personnummer och journal i mappen
 		journals.put(idNbr, journal);
 	}
+
+	//Tar bort en person ur journalregistret med angivet personnummer
 	public boolean deletePatient(String idNbr, int type){
 			deletePatient(idNbr);
 			return journals.remove(idNbr);
+		}
+
 	//Tar bort en person ur journalregistret med angivet personnummer	
 	}
 	public journal readJournal(String idNbr, int type){
@@ -46,7 +50,7 @@
 	}
 	public boolean writeTo(int idNbr, String text, String nurseiId, String docId, String div, String date){
 
-		
+
 		Journal jour = journals.get(idNbr);	//hätar ut journalen för personen
 		JournalEntry journalEntry = new JournalEntry(nurseiId, docId, div, date);
 		journalEntry.addNote(text);

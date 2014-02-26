@@ -1,11 +1,13 @@
-Public class Patient(IdNbr, IdName){
-	String idNbr, idName, div;
+package server;
 
-	Public Patient(idNbr, idName, div){		//ger en patient persnummer, namn, och avdelning på sjukhuset
+public class Patient(IdNbr, IdName){
+	private Journal journal;
+	String idNbr, idName;
+
+	public Patient(String idNbr, String idName, String div){		//ger en patient persnummer, namn, och avdelning på sjukhuset
 	this.idName=idName;
 	this.idNbr=idNbr;
-	this.div=div;
-	journal journal = new journal();
+	journal = new journal(this);
 	}
 
 	public journal getJournal() {
@@ -18,4 +20,16 @@ Public class Patient(IdNbr, IdName){
 	public String getidName(){
 		return idName;
 	}
+
+	public void addJournalEntry(String nurseId, String doctorId, String division){
+		journal.addEntry(new journalEntry(nurseId, doctorId, division));
+	}
+	public void wipeJournals(){
+		journal= new Journal(this);
+	}
+
+	public String toString(){
+		return id +":"+ " "+ name;
+	}
+
 }
