@@ -43,7 +43,7 @@ public class JournalEntry(){
 
 		public String getNotes(){
 
-			return notes.toString();
+			return dScript.toString();
 		}
  
 	
