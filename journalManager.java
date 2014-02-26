@@ -12,7 +12,7 @@
 
 	}
 	public boolean deletePatient(int idNbr){
-		return journals.remove(IdNbr);
+		return journals.remove(idNbr);
 	//Tar bort en person ur journalregistret med angivet personnummer	
 	}
 	public journal getJournal(int idNbr){
@@ -25,13 +25,3 @@
 	}
 
 
-
-
-
-
-
-
-
-
-
-	}
