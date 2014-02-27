@@ -1,3 +1,5 @@
+package server;
+
 public class Government{
 	private String id;
 	private String name;
