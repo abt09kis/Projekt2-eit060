@@ -130,9 +130,10 @@ package Client;
 			case 2:
 
 			Sysytem.out.Println("Enter PatientID for removal:")
+			
 			String patId = scanner.next();
 
-			public boolean deletePatient(String idNbr);
+			deletePatient(patId);
 
 			
 
