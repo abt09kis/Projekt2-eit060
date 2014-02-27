@@ -1,3 +1,4 @@
+package Server;
 		public class logger{
 
 		StringBuilder logString;
