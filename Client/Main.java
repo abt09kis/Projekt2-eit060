@@ -17,7 +17,7 @@
 
 	if (id.equals(patient) ) {
 			System.out.println("Welcome patient, here is your journal:");
-			patientMenu(id);
+			patient(id);
 		} else if (id.equals(doctor)) {
 				while(!close){
 				System.out.println("Welcome doctor, what would you like to do?");
@@ -29,7 +29,7 @@
 				int choice = scanner.nextInt();
 					if(choice!=4){
 
-					docMenu(choice, id);
+					doctor(choice, id);
 					}else{
 
 					close = true;	
@@ -45,7 +45,7 @@
 				int choice = scanner.nextInt();
 				if(choice!=4){
 
-				nurseMenu(choice, id);
+				nurse(choice, id);
 
 				}
 				}
@@ -59,7 +59,7 @@
 				int choice = scanner.nextInt();
 
 				if(choice!=4){
-				govMenu(choice, id);	
+				government(choice, id);	
 				}
 			}
 		}
