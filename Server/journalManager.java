@@ -24,16 +24,14 @@
 		Patient patient = patientMap.get(idNbr);
 		ArrayList<JournalEntry> temp = patientJournal.getEntries();
 		if(type == PATIENT || type GOVERNMENT){
-			return journals.get(idNbr);
+			patientJournal.printJournal();
 		} else if(type == NURSE){
 			Nurse nurse = nurseMap.get(staffID);
 			//Checks if the nurse is the assigned nurse to the patient or on the same division
 			for(int i=0;i<temp.size();i++){
 				if(temp.get(i).getNurseId().equals(nurse.getId()) || temp.get(i).getDivision().equals(nurse.getDivision())){
 					temp.get(i).printStr();				}
-
 				}
-				
 			}
 		} else {
 			Doctor doctor = doctorMap.get(staffID);
@@ -41,9 +39,7 @@
 			for(int k=0;k<temp.size();k++){
 				if(temp.get(k).getDoctorId().equals(doctor.getId()) || temp.get(k).getDivision().equals(doctor.getDivision())){
 					temp.get(k).printStr();				
-				}
-
-				
+				}			
 			}
 		}
 		return null;

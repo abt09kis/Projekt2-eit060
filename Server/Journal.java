@@ -50,4 +50,10 @@ public class journal{
 		}
 		return false;
 	}
+
+	public void printJournal(){
+		for(int i = 0; i < entries.size(); i++){
+			entries.get(i).printStr();
+		}
+	}
 }
