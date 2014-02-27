@@ -1,4 +1,4 @@
-
+package Client;
 
 	boolean close = false;
 	scanner = new Scanner(System.in);
