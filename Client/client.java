@@ -15,6 +15,14 @@ import java.security.cert.*;
  */
 public class client {
 
+    public String getSubjectID(){
+        return cert.getSubjectuniqueID().getName();
+    }
+
+    public String getSubjectName(){
+        return String subjectName = cert.getSubjectX500Principal().getName();
+    }
+
     public static void main(String[] args) throws Exception {
         String host = null;
         int port = -1;
@@ -65,27 +73,27 @@ public class client {
             SSLSession session = socket.getSession();
             X509Certificate cert = (X509Certificate)session.getPeerCertificateChain()[0];
             String subject = cert.getSubjectDN().getName();
-            System.out.println("certificate name (subject DN field) on certificate received from server:\n" + subject + "\n");
+            System.out.println("certificate name (subject DN field) on ce2rtificate received from server:\n" + subject + "\n");
             System.out.println("socket after handshake:\n" + socket + "\n");
             System.out.println("secure connection established\n\n");
 
             BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String msg;
-			for (;;) {
-                System.out.print(">");
-                msg = read.readLine();
-                if (msg.equalsIgnoreCase("quit")) {
-				    break;
-				}
-                System.out.print("sending '" + msg + "' to server...");
-                out.println(msg);
-                out.flush();
-                System.out.println("done");
+            // String msg;
+			// for (;;) {
+   //              System.out.print(">");
+   //              msg = read.readLine();
+   //              if (msg.equalsIgnoreCase("quit")) {
+			// 	    break;
+			// 	}
+   //              System.out.print("sending '" + msg + "' to server...");
+   //              out.println(msg);
+   //              out.flush();
+   //              System.out.println("done");
 
-                System.out.println("received '" + in.readLine() + "' from server\n");
-            }
+   //              System.out.println("received '" + in.readLine() + "' from server\n");
+   //          }
             in.close();
 			out.close();
 			read.close();
