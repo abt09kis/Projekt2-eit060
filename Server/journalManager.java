@@ -27,13 +27,13 @@
 		} else if(type == NURSE){
 			Nurse nurse = nurseMap.get(staffID);
 			//Checks if the nurse is the assigned nurse to the patient or on the same division
-			if(nurse.getDivision().equals(patient.getDivision()) || patientJournal.findNurse(nurse.getId())){
+			if(patientJournal(nurse.getDivision()) || patientJournal.findNurse(nurse.getId())){
 				return journals.get(idNbr);
 			}
 		} else {
 			Doctor doctor = doctorMap.get(staffID);
 			//Checks if the doctor is the assigned doctor to the patient or on the same division
-			if(doctor.getDivision().equals(patient.getDivision()) || patientJournal.findDoctor(doctor.getId()){
+			if(patientJournal(doctor.getDivision()) || patientJournal.findDoctor(doctor.getId()){
 				return journals.get(idNbr);
 			}
 		}
