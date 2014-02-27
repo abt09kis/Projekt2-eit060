@@ -33,14 +33,14 @@ public class server implements Runnable {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String clientMsg = null;
-            while ((clientMsg = in.readLine()) != null) {
+           /* while ((clientMsg = in.readLine()) != null) {
 			    String rev = new StringBuilder(clientMsg).reverse().toString();
                 System.out.println("received '" + clientMsg + "' from client");
                 System.out.print("sending '" + rev + "' to client...");
 				out.println(rev);
 				out.flush();
                 System.out.println("done\n");
-			}
+			}*/
 			in.close();
 			out.close();
 			socket.close();
@@ -59,7 +59,7 @@ public class server implements Runnable {
     public static void main(String args[]) {
         System.out.println("\nServer Started\n");
         int port = -1;
-        if (args.length >= 1) {
+        if (args.length >= 1) { 
             port = Integer.parseInt(args[0]);
         }
         String type = "TLS";
