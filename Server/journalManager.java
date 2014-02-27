@@ -40,9 +40,9 @@
 			//Checks if the doctor is the assigned doctor to the patient or on the same division
 			for(int k=0;k<temp.size();k++){
 				if(temp.get(k).getDoctorId().equals(doctor.getId()) || temp.get(k).getDivision().equals(doctor.getDivision())){
-					temp.get(k).printStr();				}
-
+					temp.get(k).printStr();				
 				}
+
 				
 			}
 		}
