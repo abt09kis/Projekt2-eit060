@@ -4,6 +4,7 @@ import java.security.KeyStore;
 import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
+package Server;
 
 public class server implements Runnable {
     private ServerSocket serverSocket = null;
