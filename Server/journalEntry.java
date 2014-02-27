@@ -30,21 +30,20 @@ public class JournalEntry(){
 		String n= getNotes();
 		return doctorId+ ":" + nurseId+ ":" + division+ ":" +(n.isEmpty()? "null" : n);
 		}
-		public String printStr(){
-			return "Doktor: " + doctorId + "\n" +
+	public String printStr(){
+		return "Doktor: " + doctorId + "\n" +
 			"Nurse: "+ nurseId + "\n"+
 			"Avdelning: "+ division+ "\n"+
 			"Anteckningar: "+ getNotes();
-		}
+	}
 
-		public void addNote(String string){
-			dScript.append(string + "\n");
-		}
+	public void addNote(String string){
+		dScript.append(string + "\n");
+	}
 
-		public String getNotes(){
-
+	public String getNotes(){
 			return dScript.toString();
-		}
+	}
  
 	
 }

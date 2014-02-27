@@ -3,12 +3,9 @@
 		private static final int NURSE = 1;
 		private static final int DOCTOR = 2;
 		private static final int GOVERNMENT = 3;
-		
-		//klassen som innehåller alla Journaler
-
-		public Hashmap<IdNbr, Journal> journals = new Hashmap();
-
-
+		private Hashmap<IdNbr, Journal> journals = new Hashmap();	
+	
+	//klassen som innehåller alla Journaler
 	public void addJournal(int idNbr, Journal journal, Patient patient){
 		//Lägg till en person i registret av journaler genom att lägga in dens personnummer och journal i mappen
 		addPatient(idNbr, Patient);
@@ -17,11 +14,8 @@
 
 	//Tar bort en person ur journalregistret med angivet personnummer
 	public boolean deletePatient(String idNbr){
-			deletePatient(idNbr);
-			return journals.remove(idNbr);
-		}
-
-	//Tar bort en person ur journalregistret med angivet personnummer	
+		deletePatient(idNbr);
+		return journals.remove(idNbr);	
 	}
 
 	//Returns the patient journal 

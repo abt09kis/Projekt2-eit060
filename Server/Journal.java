@@ -42,6 +42,12 @@ public class journal{
 		return false;
 	}
 
-
-
+	public boolean findDivision(String division){
+		for(JournalEntry e: entries){
+			if(e.getDivision().equals(division)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

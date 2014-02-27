@@ -1,12 +1,12 @@
 package server;
 
 public class Nurse{
-	private String unit;
+	private String division;
 	private String name;
 	private String id;
 	private boolean isNurse;
 
-	public Nurse(String unit, String name, String id, boolean isNurse){
+	public Nurse(String division, String name, String id, boolean isNurse){
 		this.unit=unit;
 		this.name=name;
 		this.id=id;
@@ -17,8 +17,8 @@ public class Nurse{
 		return isNurse;
 	}
 
-	public String getUnit(){
-		return unit;
+	public String getDivision(){
+		return division;
 	}
 
 	public String getId(){
