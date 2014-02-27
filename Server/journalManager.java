@@ -9,8 +9,9 @@
 		public Hashmap<IdNbr, Journal> journals = new Hashmap();
 
 
-	public void addJournal(int idNbr, Journal journal){
+	public void addJournal(int idNbr, Journal journal, Patient patient){
 		//Lägg till en person i registret av journaler genom att lägga in dens personnummer och journal i mappen
+		addPatient(idNbr, Patient);
 		journals.put(idNbr, journal);
 	}
 
@@ -22,24 +23,31 @@
 
 	//Tar bort en person ur journalregistret med angivet personnummer	
 	}
+
+	//Returns the patient journal 
 	public journal readJournal(String idNbr, String staffID, int type){
+		Journal patientJournal = journals.get(IdNbr);
+		Patient patient = patientMap.get(idNbr);
 		if(type == PATIENT || type GOVERNMENT){
 			return journals.get(idNbr);
-		} else if(type == NURSE) {
+		} else if(type == NURSE){
 			Nurse nurse = nurseMap.get(staffID);
-			if(nurse.getDivision().equals("Division of pati") || nurse.getPatients().equals("Nurse of patient")){
+			//Checks if the nurse is the assigned nurse to the patient or on the same division
+			if(nurse.getDivision().equals(patient.getDivision()) || patientJournal.findNurse(nurse.getId())){
 				return journals.get(idNbr);
-			} else {
-				Doctor doctor = doctorMap.get(staffID);
-				if(doctor.getDivision().equals("Division of patient") || doctor.getPatients().equals("Doctor of patient"))){
-					return journals.get(idNbr);
-				}
 			}
+		} else {
+			Doctor doctor = doctorMap.get(staffID);
+			//Checks if the doctor is the assigned doctor to the patient or on the same division
+			if(doctor.getDivision().equals(patient.getDivision()) || patientJournal.findDoctor(doctor.getId()){
+				return journals.get(idNbr);
+			}
+		}
+		return null;
 	}
+
 	public boolean writeTo(int idNbr, String text, String nurseiId, String docId, String div, String date){
-
-
-		Journal jour = journals.get(idNbr);	//hätar ut journalen för personen
+		Journal jour = journals.get(idNbr);	//hämtar ut journalen för personen
 		JournalEntry journalEntry = new JournalEntry(nurseiId, docId, div, date);
 		journalEntry.addNote(text);
 		jour.add(journalEntry);

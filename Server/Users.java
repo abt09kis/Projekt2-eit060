@@ -26,4 +26,8 @@ public class Users{
 	public void deletePatient(String id){
 		patientMap.remove(id);
 	}
+
+	public void addPatient(String id, Patient patient){
+		patientMap.add(id, patient);
+	}
 }
