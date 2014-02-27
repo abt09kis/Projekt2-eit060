@@ -32,7 +32,7 @@
 			//Checks if the nurse is the assigned nurse to the patient or on the same division
 			for(int i=0;i<temp.size();i++){
 				if(temp.get(i).getNurseId().equals(nurse.getId()) || temp.get(i).getDivision().equals(nurse.getDivision())){
-					temp.get(i).printStr();				}
+					temp.get(i).printStr();				
 				}
 			}
 		} else {
