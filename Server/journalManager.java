@@ -18,7 +18,7 @@
 		return journals.remove(idNbr);	
 	}
 
-	//Returns the patient journal 
+	//Prints the patient Journal 
 	public void readJournal(String idNbr, String staffID, int type){
 		Journal patientJournal = journals.get(IdNbr);
 		Patient patient = patientMap.get(idNbr);
@@ -50,7 +50,6 @@
 		JournalEntry journalEntry = new JournalEntry(nurseId, docId, div, date);
 		journalEntry.addNote(text);
 		jour.add(journalEntry);
-
 	}
 	}
 
