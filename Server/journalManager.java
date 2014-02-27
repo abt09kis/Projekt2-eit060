@@ -33,7 +33,7 @@
 		} else {
 			Doctor doctor = doctorMap.get(staffID);
 			//Checks if the doctor is the assigned doctor to the patient or on the same division
-			if(patientJournal(doctor.getDivision()) || patientJournal.findDoctor(doctor.getId()){
+			if(patientJournal(doctor.getUnit()) || patientJournal.findDoctor(doctor.getId()){
 				return journals.get(idNbr);
 			}
 		}
