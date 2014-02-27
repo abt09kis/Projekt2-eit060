@@ -1,3 +1,5 @@
+	package Server;
+
 	public class journalManager{
 		private static final int PATIENT = 0;
 		private static final int NURSE = 1;

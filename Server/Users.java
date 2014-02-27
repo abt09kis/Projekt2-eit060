@@ -1,3 +1,4 @@
+package Server;
 public class Users{
 	private HashMap<String, Doctor> doctorMap;
 	private HashMap<String, Nurse> nurseMap;
