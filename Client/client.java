@@ -23,6 +23,28 @@ public class client {
         return String subjectName = cert.getSubjectX500Principal().getName();
     }
 
+    public String[] parseCNField(){
+        return s.split(":");
+    }
+
+    public String waitForString(){
+        while(!socket.isClosed()){
+            try{
+
+                String s = null;
+                if((s = in.readLine()) != null){
+                    System.out.prinln(":>clienten tar emot " + s);
+                    return s;
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        } 
+        return null;
+    }
+
+    
+
     public static void main(String[] args) throws Exception {
         String host = null;
         int port = -1;
