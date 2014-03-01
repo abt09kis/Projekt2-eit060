@@ -46,13 +46,13 @@ public class Users{
 
 		//Skapar en patient Johan.
 		Patient johan = new Patient("p01", "Johan");
-		patient1.addJournalEntry("d01", "n01", "Hals");
-		patient1.addJournalEntry("d02", "n01", "Ortopeden");
+		johan.addJournalEntry("d01", "n01", "Hals");
+		johan.addJournalEntry("d02", "n01", "Ortopeden");
 		patients.put(johan.getId(), johan);
 
 		//Skapar en patient Filippa.
 		Patient filippa = new Patient("p02", "Filippa");
-		patient2.addJournalEntry("d02","n02","Ortopeden");
+		filippa.addJournalEntry("d02","n02","Ortopeden");
 		patients.put(filippa.getId(),filippa);
 
 		//Skapar en läkare Alfred.
