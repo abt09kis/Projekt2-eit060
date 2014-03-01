@@ -44,13 +44,34 @@ public class Users{
 		govMap.put("g01", gov);
 
 
-		//Skapar en patient.
-		Patient patient1 = new Patient("p01", "Johan");
+		//Skapar en patient Johan.
+		Patient johan = new Patient("p01", "Johan");
 		patient1.addJournalEntry("d01", "n01", "Hals");
 		patient1.addJournalEntry("d02", "n01", "Ortopeden");
-		patients.put(patient1.getId(), Patient1);
+		patients.put(johan.getId(), johan);
 
-		//Likadant för att skapa en till.
+		//Skapar en patient Filippa.
+		Patient filippa = new Patient("p02", "Filippa");
+		patient2.addJournalEntry("d02","n02","Ortopeden");
+		patients.put(filippa.getId(),filippa);
+
+		//Skapar en läkare Alfred.
+		Doctor alfred = new Doctor("Hals","d01","Alfred Pennyworth", true);
+		doctorMap.put(alfred.getId(), alfred);
+
+		//Skapar en läkare Julian.
+		Doctor julian = new Doctor("Ortopeden", "d02","Julian Grey", true);
+		doctorMap.put(julian.getId(), julian);
+
+		//Skapar en Sjuksköterska Mia.
+		Nurse mia= new Nurse("Hals","Mia Olofsson", "n01", true);
+		nurseMap.put(mia.getId(), mia);
+
+		//Skapar en Sjuksköterska Ann-britt.
+		Nurse annBritt = new Nurse("Ortopeden","Ann-britt Gunnarsson", "n02", true);
+		nurseMap.put(annBritt.getId(), annBritt);
+
+
 
 
 
