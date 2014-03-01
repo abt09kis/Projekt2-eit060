@@ -211,6 +211,10 @@ public class client {
             return GOVERNMENT;
         }
     }
+
+    public String getSubjectDN(){
+        return cert.getSubjectDN().getName();    
+    }
 }
 
     
