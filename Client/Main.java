@@ -5,14 +5,21 @@ package Client;
 	
 	public static void main(String[] args) {
 
-		
-
+		//Kommentera bort det här? Finns inget syfte med det. ID tas från certifikatet
 		System.out.print("Enter ID: ");
 		id = scanner.next();
+		
+
 		System.out.print("Enter Password: ");
 		pass = scanner.next();
 
-		//CERTIFIKAT??()
+		//Ska vi göra ungeför så här??
+		System.out.println("Write your certificate name: ");
+		String certName = scan.next();
+		Client client = new client(certName, pass);
+		client.run();
+		String idCert = client.getSubjectID();
+		//Kolla TYPE 
 
 
 	if (id.equals(patient) ) {
