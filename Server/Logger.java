@@ -1,5 +1,5 @@
 package Server;
-		public class logger{
+		public class Logger{
 
 		StringBuilder logString;
 
@@ -18,7 +18,7 @@ package Server;
 		public void writeToFile(String filename) {
 
 			PrintWriter writer = new PrintWriter("Logg.txt", "UTF-8");
-			writer.print(logString)
+			writer.print(logString); //Ska det inte vara "writer.write(logstring.toString())"
 			writer.close();
 
 		public void readFromFile(String fileName) { 

@@ -5,10 +5,11 @@
 		private static final int NURSE = 1;
 		private static final int DOCTOR = 2;
 		private static final int GOVERNMENT = 3;
-		private Hashmap<IdNbr, Journal> journals = new Hashmap();	
+		private Hashmap<IdNbr, Journal> journals = new Hashmap();
+		private Logger logg;	
 	
 	//klassen som innehåller alla Journaler
-	public void addJournal(int idNbr, Journal journal, Patient patient){
+	public void addJournal(String idNbr, Journal journal, Patient patient){
 		//Lägg till en person i registret av journaler genom att lägga in dens personnummer och journal i mappen
 		addPatient(idNbr, Patient);
 		journals.put(idNbr, journal);

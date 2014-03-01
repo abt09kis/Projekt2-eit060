@@ -6,11 +6,15 @@ import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
 import java.security.KeyStore;
 import java.security.cert.*;
-
 import java.util.ArrayList;
-
 import server.journalEntry;
 import server.Patient;
+
+private X509Certificate cert;
+private static final int PATIENT = 0;
+private static final int NURSE = 1;
+private static final int DOCTOR = 2;
+private static final int GOVERNMENT = 3;
 
 /*
  * This example shows how to set up a key manager to perform client
@@ -58,6 +62,9 @@ public class client {
             socket.setUseClientMode(true);
             socket.startHandshake();
             System.out.println(":>client handshake is done.");
+
+            SSLSession session = socket.getSession();
+            cert = (X509Certificate)session.getPeerCertificateChain()[0]; //gör så vi kan göra anropet få SubjectDn name sen i getType metoden
 
             inputStream = socket.getInputStream();
             inputReader = new InputStreamReader(inputStream);
@@ -188,11 +195,22 @@ public class client {
                 System.out.println(i + ". " + entry);
             }
         }
-
         client.close();
     }
 
-
+    public int getType(){
+        String subject = cert.getSubjectDN().getName();
+        String typeLetter = Character.toString(text.charAt(3));
+        if(typeLetter.equals("P")){
+            return PATIENT;
+        } else if(typeLetter.equals("N")) {
+            return NURSE;
+        } else if(typeLetter.equals("D")){
+            return DOCTOR;    
+        } else{
+            return GOVERNMENT;
+        }
+    }
 }
 
     

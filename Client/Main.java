@@ -2,30 +2,26 @@ package Client;
 
 	boolean close = false;
 	scanner = new Scanner(System.in);
+	private static final int PATIENT = 0;
+	private static final int NURSE = 1;
+	private static final int DOCTOR = 2;
+	private static final int GOVERNMENT = 3;
 	
 	public static void main(String[] args) {
-
-		//Kommentera bort det här? Finns inget syfte med det. ID tas från certifikatet
-		System.out.print("Enter ID: ");
-		id = scanner.next();
 		
-
-		System.out.print("Enter Password: ");
-		pass = scanner.next();
-
 		//Ska vi göra ungeför så här??
 		System.out.println("Write your certificate name: ");
 		String certName = scan.next();
-		Client client = new client(certName, pass);
-		client.run();
-		String idCert = client.getSubjectID();
-		//Kolla TYPE 
+		System.out.print("Enter Password: ");
+		String password = scanner.next();
+		Client client = new client("localhost", 10000, "certificates/" + certName + ".jks", password);
+		int type = client.getType(); //Hämtar typen från certifikatet
 
 
-	if (id.equals(patient) ) {
+	if (type == PATIENT) {
 			System.out.println("Welcome patient, here is your journal:");
-			patient(id);
-		} else if (id.equals(doctor)) {
+			readJournal("", "", type);
+		} else if (type == DOCTOR) {
 				while(!close){
 				System.out.println("Welcome doctor, what would you like to do?");
 				System.out.println("1. Read a journal");
@@ -34,39 +30,30 @@ package Client;
 				System.out.println("4. exit");
 
 				int choice = scanner.nextInt();
-					if(choice!=4){
-
-					doctor(choice, id);
-					}else{
-
-					close = true;	
-					}
-		}
-
-		} else if (id.equals(nurse) {
+				if(choice!=4){
+						doctor(choice, id);
+				}else{
+						close = true;	
+				}
+			}
+		} else if (type == NURSE) {
 				System.out.println("Welcome nurse, what would you like to do?");
 				System.out.println("1. Read a journal");
 				System.out.println("2. Write to a journal");
-				System.out.println("4. exit");
+				System.out.println("3. exit");
 
 				int choice = scanner.nextInt();
-				if(choice!=4){
-
-				nurse(choice, id);
-
+				if(choice!=3){
+					nurse(choice, id);
 				}
-				}
-			}
-		} else {
-			System.out.println("Welcome goverment, what would you like to do?");
+			} else if (type == GOVERNMENT) {
+				System.out.println("Welcome goverment, what would you like to do?");
 				System.out.println("1. Read a journal");
 				System.out.println("2. Delete a journal");
-				System.out.println("4. exit");
-
+				System.out.println("3. exit");
 				int choice = scanner.nextInt();
-
-				if(choice!=4){
-				government(choice, id);	
+				if(choice != 3){
+					government(choice);	
 				}
 			}
 		}
@@ -123,30 +110,18 @@ package Client;
 				temp.getJournal.printJournal;
 
 		}
-		private void government(name, choice){
-
+		private void government(int choice){
 		switch(choice){
 			case 1:
-			readJournal
-			
-						Sysytem.out.Println("Enter PatientID:")
-						
+					System.out.Println("Enter PatientID: ")	
 					String patId = scanner.next();
-						readJournal(patId, id, 3);
+					readJournal(patId, "", GOVERNMENT);
 
 			case 2:
-
-			Sysytem.out.Println("Enter PatientID for removal:")
-			
-			String patId = scanner.next();
-
-			deletePatient(patId);
-
-			
-
-
+					System.out.Println("Enter PatientID for removal: ");	
+					String patId = scanner.next();
+					deletePatient(patId);
 		}
-	}
 	}
 		private void nurse (id, choice){
 
@@ -173,8 +148,6 @@ package Client;
 						writeTo(id, text, nurseId, docId, div, date);
 					
 		}
-
-
 
 
 

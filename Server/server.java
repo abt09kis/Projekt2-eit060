@@ -23,16 +23,16 @@ public class server implements Runnable {
             X509Certificate cert = (X509Certificate)session.getPeerCertificateChain()[0];
             String subject = cert.getSubjectDN().getName();
     	    numConnectedClients++;
-            System.out.println("client connected");
-            System.out.println("client name (cert subject DN field): " + subject);
-            System.out.println(numConnectedClients + " concurrent connection(s)\n");
+            // System.out.println("client connected");
+            // System.out.println("client name (cert subject DN field): " + subject);
+            // System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
             PrintWriter out = null;
             BufferedReader in = null;
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String clientMsg = null;
+            // String clientMsg = null;
            /* while ((clientMsg = in.readLine()) != null) {
 			    String rev = new StringBuilder(clientMsg).reverse().toString();
                 System.out.println("received '" + clientMsg + "' from client");
