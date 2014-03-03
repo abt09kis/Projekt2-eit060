@@ -1,7 +1,6 @@
 package Server;
 
-public class JournalEntry(){
-
+public class JournalEntry{
 	private String nurseID;
 	private String doctorID;
 	private String division;
@@ -28,25 +27,21 @@ public class JournalEntry(){
 		return division;
 	}
 
-	pulic String toString(){
-		String n= getNotes();
-		return doctorID+ ":" + nurseID+ ":" + division+ ":" + date ":" +(n.isEmpty()? "null" : n);
-		} fs
-	public void printStr(){
-		System.out.println("Doktor: " + doctorID + "\n" +
+	public String getStr(){
+		dScript.append("Doktor: " + doctorID + "\n" +
 			"Nurse: "+ nurseID + "\n"+
 			"Avdelning: "+ division+ "\n"+
-			"Date: " + date "\n" +
-			"Anteckningar: "+ getNotes());
+			"Date: " + date + "\n");
+		return dScript.toString();
 	}
 
 	public void addNote(String text){
 		dScript.append(text + "\n");
 	}
 
-	public String getNotes(){
-			return dScript.toString();
-	}
+//	public String getNotes(){
+//			return dScript.toString();
+//	}
  
 	
 }

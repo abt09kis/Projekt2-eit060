@@ -1,34 +1,36 @@
 package Server;
-		public class Logger{
 
-		StringBuilder logString;
 
-		public logger(){
-			logString = new StringBuilder();
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Logger {	
+
+	private PrintStream out;
+
+	public Logger(String file){
+		try {
+			FileOutputStream fout = new FileOutputStream(file, true);
+			out = new PrintStream(fout);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 
-		public void append(String s){
-			logString.append(s + "\n");
-		}
+	}
 
-		public String returnString(){
-			return logString.ToString();
-		}
+	public void log(String performer, String patient, String action){
+		out.println (getDateTime() + " " + performer + " " + action + " for patient " + patient);
+		out.flush();
+	}
 
-		public void writeToFile(String filename) {
+	private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
-			PrintWriter writer = new PrintWriter("Logg.txt", "UTF-8");
-			writer.print(logString); //Ska det inte vara "writer.write(logstring.toString())"
-			writer.close();
-
-		public void readFromFile(String fileName) { 
-
-			FileInputStream inputStream = new FileInputStream("Logg.txt");
-    			try {
-       				 String everything = IOUtils.toString(inputStream);
-   			 } finally {
-       		 inputStream.close();
-   		 }
-
-
-		}
+}

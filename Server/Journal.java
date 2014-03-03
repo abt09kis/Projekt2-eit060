@@ -2,10 +2,10 @@ package Server;
 import java.util.ArrayList;
 
 
-public class journal{
+public class Journal{
 	private ArrayList<JournalEntry> entries;
 
-	public journal()){
+	public Journal(){
 		entries = new ArrayList<JournalEntry>();	
 	}
 
@@ -13,19 +13,9 @@ public class journal{
 		entries.add(je);
 	}
 
-	public ArrayList<JournalEntry> getEntries(){
-		return entries;
-	}
-
-	public void printJournal(){
-		for(int i=0; i < entries.size(); i++){
-			System.out.println(entries.get(i));
-		}
-	}
-
 	public boolean findDoctor(String id){
 		for(JournalEntry e: entries){
-			if(e.getDoctorId().equals(id)){
+			if(e.getDoctorID().equals(id)){
 				return true;
 			}
 		}
@@ -33,7 +23,7 @@ public class journal{
 	}
 	public boolean findNurse(String id){
 		for(JournalEntry e: entries){
-			if(e.getNurseId().equals(id)){
+			if(e.getNurseID().equals(id)){
 				return true;
 			}
 		}
@@ -49,32 +39,38 @@ public class journal{
 		return false;
 	}
 
-	public void printJournal(){
+	public String getJournal(){
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < entries.size(); i++){
-			entries.get(i).printStr();
+			sb.append(entries.get(i).getStr());
 		}
+		return sb.toString();
 	}
 
-	public void printAllowedJournalEntries(Nurse nurse){
+	public String getAllowedJournalEntries(Nurse nurse){
 		String nurseID = nurse.getNurseID();
 		String division = nurse.getDivision();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < entries.size(); i++){
 			JournalEntry entry = entries.get(i);
 			if(entry.getNurseID().equals(nurseID) || entry.getDivision().equals(division)){
-				entry.printStr();
+				sb.append(entry.getStr());
 			}
 		}
+		return sb.toString();
 	}
 
-	public void printAllowedJournalEntries(Doctor doctor){
+	public String getAllowedJournalEntries(Doctor doctor){
 		String doctorID = doctor.getDoctorID();
 		String division = doctor.getDivision();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < entries.size(); i++){
 			JournalEntry entry = entries.get(i);
 			if(entry.getDoctorID().equals(doctorID) || entry.getDivision().equals(division)){
-				entry.printStr();
+				sb.append(entry.getStr());
 			}
 		}
+		return sb.toString();
 	}
 
 	public boolean hasWriteRights(Nurse nurse){
@@ -86,7 +82,7 @@ public class journal{
 				return true;
 			}
 		}
-
+		return false;
 	}
 
 	public boolean hasWriteRights(Doctor doctor){
@@ -98,5 +94,6 @@ public class journal{
 				return true;
 			}
 		}
+		return false;
 	}
 }

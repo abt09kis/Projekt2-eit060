@@ -1,9 +1,11 @@
 package Server;
+
+import java.util.HashMap;
+
 public class Users{
 	private HashMap<String, Doctor> doctorMap;
 	private HashMap<String, Nurse> nurseMap;
 	private HashMap<String, Journal> journalMap;
-
 
 	public Users(){
 		doctorMap = new HashMap<String, Doctor>();
@@ -24,7 +26,11 @@ public class Users{
 	}
 
 	public boolean deletePatient(String patientID){
-		return journalMap.remove(patientID);
+		if(journalMap.containsKey(patientID)){
+			journalMap.remove(patientID);
+			return true;
+		}
+		return false;
 	}
 
 	public void addPatient(String patientID, Journal journal){
@@ -36,29 +42,29 @@ public class Users{
 	public void fillTestUsers(){
 		//Skapar en patient Johan
 		Journal johanJournal = new Journal();
-		johanJournal.addJournalEntry( new addJournalEntry("n01", "d01", "Hals", "igår"));
-		johanJournal.addJournalEntry(new addJournalEntry("n02", "d01", "Ortopeden", "idag"));
-		journalMap.put(p01, johanJournal);
+		johanJournal.addEntry(new JournalEntry("n01", "d01", "Hals", "igår"));
+		johanJournal.addEntry(new JournalEntry("n02", "d01", "Ortopeden", "idag"));
+		journalMap.put("p01", johanJournal);
 
 		//Skapar en patient Filippa
 		Journal filippaJournal = new Journal();
-		johanJournal.addJournalEntry( new addJournalEntry("n02", "d02", "Hals", "igår"));
-		journalMap.put(p02, filippaJournal);
+		johanJournal.addEntry( new JournalEntry("n02", "d02", "Hals", "igår"));
+		journalMap.put("p02", filippaJournal);
 
 		//Skapar en läkare Alfred.
 		Doctor alfred = new Doctor("Hals","d01","Alfred Pennyworth");
-		doctorMap.put(alfred.getId(), alfred);
+		doctorMap.put("d01", alfred);
 
 		//Skapar en läkare Julian.
 		Doctor julian = new Doctor("Ortopeden", "d02","Julian Grey");
-		doctorMap.put(julian.getId(), julian);
+		doctorMap.put("d02", julian);
 
 		//Skapar en Sjuksköterska Mia.
-		Nurse mia= new Nurse("Hals","Mia Olofsson", "n01", true);
-		nurseMap.put(mia.getId(), mia);
+		Nurse mia= new Nurse("Hals","Mia Olofsson", "n01");
+		nurseMap.put("n01", mia);
 
 		//Skapar en Sjuksköterska Ann-britt.
-		Nurse annBritt = new Nurse("Ortopeden","Ann-britt Gunnarsson", "n02", true);
-		nurseMap.put(annBritt.getId(), annBritt);
+		Nurse annBritt = new Nurse("Ortopeden","Ann-britt Gunnarsson", "n02");
+		nurseMap.put("n02", annBritt);
 	}
 }

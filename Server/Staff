@@ -1,0 +1,28 @@
+public class Staff{
+	private boolean isDoctor;
+	private boolean isNurse;
+	private String division;
+	private String id;
+
+	public staff(String staffId, String id, String division){
+		if(StaffId.equals(a doctors id)){
+			isDoctor = true;	
+		} else if(StaffId.equals(a nurses if)){
+			isNurse = true;	
+		}
+		this.id = id;
+		this.division = division;
+	}
+
+	public boolean isDoctor(){
+		return isDoctor;
+	}
+
+	public boolean isNurse(){
+		return isNurse;
+	}
+
+	public String getDivision(){
+		return division;
+	}
+}

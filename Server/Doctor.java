@@ -6,7 +6,7 @@ public class Doctor{
 	private String doctorID;
 
 	public Doctor(String division, String name, String doctorID){
-		this.unit=unit;
+		this.division=division;
 		this.name=name;
 		this.doctorID=doctorID;
 	}
