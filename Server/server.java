@@ -56,9 +56,9 @@ public class Server extends Thread {
 		audit = new Logger("audit.log");
 		jm = new JournalManager();
 
-		System.setProperty("javax.net.ssl.keyStore", "certificates/server.jks");
+		System.setProperty("javax.net.ssl.keyStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/serverkeystore");
 		System.setProperty("javax.net.ssl.keyStorePassword", "eit060");
-		System.setProperty("javax.net.ssl.trustStore", "certificates/truststore.jks");
+		System.setProperty("javax.net.ssl.trustStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/servertruststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "eit060");
 
 		try {

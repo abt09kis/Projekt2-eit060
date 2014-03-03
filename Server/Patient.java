@@ -1,6 +1,6 @@
 package Server;
 
-public class Patient(IdNbr, IdName){
+public class Patient{
 	private Journal journal;
 	String idNbr, idName;
 
@@ -30,6 +30,8 @@ public class Patient(IdNbr, IdName){
 
 	public String toString(){
 		return id +":"+ " "+ name;
-	}
+		}
 
-}
+
+	}
+		                                          

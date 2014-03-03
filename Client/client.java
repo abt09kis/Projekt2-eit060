@@ -26,7 +26,7 @@ public class Client {
 		try {
 			System.setProperty("javax.net.ssl.keyStore", keystore);
 			System.setProperty("javax.net.ssl.keyStorePassword", password);
-			System.setProperty("javax.net.ssl.trustStore", "certificates/truststore.jks");
+			System.setProperty("javax.net.ssl.trustStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/clienttruststore");
 			System.setProperty("javax.net.ssl.trustStorePassword", "eit060");
 
 			SSLSocketFactory factory = (SSLSocketFactory)SSLSocketFactory.getDefault();
