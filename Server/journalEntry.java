@@ -28,20 +28,11 @@ public class JournalEntry{
 	}
 
 	public String getStr(){
-		dScript.append("Doktor: " + doctorID + "\n" +
-			"Nurse: "+ nurseID + "\n"+
-			"Avdelning: "+ division+ "\n"+
-			"Date: " + date + "\n");
+		dScript.append("Doktor: " + doctorID + "\t" + "Nurse: "+ nurseID + "\t"+ "Avdelning: "+ division+ "\t"+ "Date: " + date + "\n");
 		return dScript.toString();
 	}
 
 	public void addNote(String text){
-		dScript.append(text + "\n");
+		dScript.append(text + "\t");
 	}
-
-//	public String getNotes(){
-//			return dScript.toString();
-//	}
- 
-	
 }

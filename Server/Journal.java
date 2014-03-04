@@ -12,39 +12,41 @@ public class Journal{
 	public void addEntry(JournalEntry je){
 		entries.add(je);
 	}
-
-	public boolean findDoctor(String id){
-		for(JournalEntry e: entries){
-			if(e.getDoctorID().equals(id)){
-				return true;
-			}
-		}
-		return false;
-	}
-	public boolean findNurse(String id){
-		for(JournalEntry e: entries){
-			if(e.getNurseID().equals(id)){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean findDivision(String division){
-		for(JournalEntry e: entries){
-			if(e.getDivision().equals(division)){
-				return true;
-			}
-		}
-		return false;
-	}
+//
+//	public boolean findDoctor(String id){
+//		for(JournalEntry e: entries){
+//			if(e.getDoctorID().equals(id)){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	public boolean findNurse(String id){
+//		for(JournalEntry e: entries){
+//			if(e.getNurseID().equals(id)){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//
+//	public boolean findDivision(String division){
+//		for(JournalEntry e: entries){
+//			if(e.getDivision().equals(division)){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	public String getJournal(){
 		StringBuilder sb = new StringBuilder();
+		System.out.println(entries.size());
 		for(int i = 0; i < entries.size(); i++){
 			sb.append(entries.get(i).getStr());
 		}
-		return sb.toString();
+		String str = sb.toString();
+		return str;
 	}
 
 	public String getAllowedJournalEntries(Nurse nurse){

@@ -26,7 +26,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class Server extends Thread {
 
-	private int port = 10000;
+	private int port = 19000;
 
 	private SSLSocket socket;
 	private BufferedReader reader;
@@ -56,9 +56,9 @@ public class Server extends Thread {
 		audit = new Logger("audit.log");
 		jm = new JournalManager();
 
-		System.setProperty("javax.net.ssl.keyStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/serverkeystore");
+		System.setProperty("javax.net.ssl.keyStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/serverkeystore");
 		System.setProperty("javax.net.ssl.keyStorePassword", "eit060");
-		System.setProperty("javax.net.ssl.trustStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/servertruststore");
+		System.setProperty("javax.net.ssl.trustStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/servertruststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "eit060");
 
 		try {
@@ -75,22 +75,24 @@ public class Server extends Thread {
 			System.out.println("Servern anslöt sig mot: " + socket.getInetAddress().getHostName());
 
 
-			userID = parseId(cert.getSubjectDN().getName());
-			String userType = userID.substring(0, 0);
+			userID = parseID(cert.getSubjectDN().getName());
+			String userType = userID.substring(0, 1);
 			users = jm.getUsers();
 			ID = getPersonalID(cert.getSubjectDN().getName());
 			if(userType.equals("p")){
 				type = TYPE_PATIENT;
-			}else if(userType.equals("n")){
+			}else if(userType.equals("N")){
 				type = TYPE_NURSE;
 				nurse = users.findNurse(ID);
-			}else if(userType.equals("d")){
+			}else if(userType.equals("D")){
 				type = TYPE_DOCTOR;
 				doctor = users.findDoctor(ID);
-			}else if(userType.equals("g")){
+			}else if(userType.equals("G")){
 				type = TYPE_GOVERNMENT;
 			}
 			audit.log(ID, null, "Användaren" +ID+ " har loggat. ");
+			System.out.println("ID på personen som gör req: " +ID);
+			System.out.println("Typen på användaren är: " + type);
 
 			inputStream = socket.getInputStream();
 			inputReader = new InputStreamReader(inputStream);
@@ -107,7 +109,7 @@ public class Server extends Thread {
 		loggedIn = true;
 	}
 
-	private String parseId(String name) {
+	private String parseID(String name) {
 		String[] s = name.split(",");
 		return s[0].split("=")[1];
 	}
@@ -115,7 +117,7 @@ public class Server extends Thread {
 	private String getPersonalID(String name) {
 		String[] s = name.split(",");
 		String ID = s[0].split(" ")[1];
-		return ID.substring(0, 2);
+		return ID.substring(0, 3);
 	}
 
 	public void run() {
@@ -124,79 +126,74 @@ public class Server extends Thread {
 			while (!socket.isClosed()) {
 				if (loggedIn) { // logged in
 					System.out.println("Väntar på kommando.. ");
-					String str = waitForString();
+					String str = readStringFromClient();
 
-					String[] data = parseCommand(str);
+					String[] clientCommand = parseCommand(str);
 
-					if (data[0].equals("readJournal")) { // getAllEntries:id
-						// Patient p = users.getPatient(data[1]);
-						Journal patientJournal = users.findJournal(data[1]);
+					if (clientCommand[0].equals("readJournal")) {
+						System.out.println(clientCommand[1]);
+						Journal patientJournal = users.findJournal(clientCommand[1]);
 						String s = "";
 						if (patientJournal != null) {
 							if(doctor != null){
-								s = jm.readJournal(data[1], doctor.getDoctorID(), type);
+								s = jm.readJournal(clientCommand[1], doctor.getDoctorID(), type);
 							}else if(nurse != null){
-								s = jm.readJournal(data[1], nurse.getNurseID(), type);
+								s = jm.readJournal(clientCommand[1], nurse.getNurseID(), type);
 							}else {
-								s = jm.readJournal(data[1], ID, type);
+								s = jm.readJournal(clientCommand[1], ID, type);
 							}
 						}
 						if(!s.isEmpty()){
-							audit.log(ID, data[1], "Access godkänt till " + ID + " för att läsa journal" + data[1]);
-							sendString(s);
+							audit.log(ID, clientCommand[1], "Access godkänt till " + ID + " för att läsa journal" + clientCommand[1]);
+							sendStringToClient(s);
 						} else {
-							audit.log(ID, data[1], "Access nekad till " + ID + " för att läsa journal" + data[1]);
-							sendString("access nekad");
+							audit.log(ID, clientCommand[1], "Access nekad till " + ID + " för att läsa journal" + clientCommand[1]);
+							sendStringToClient("Ej access att läsa journal");
 						} 
-					}else {
-						sendString("Ingen patient med angivet ID kunde hittas");
-					} 
-					if (data[0].equals("newPatient")) { 
-						String patientID = data[1];
-
+					}else if (clientCommand[0].equals("newPatient")) { 
 						if(type == TYPE_DOCTOR){
-							jm.newPatient(data[1]);
-							audit.log(ID, data[1], "Doctor med id: " + ID + "skapade en ny patient med ID: " + data[1]);
-							sendString("Ny patient skapad. ");
+							jm.newPatient(clientCommand[1]);
+							audit.log(ID, clientCommand[1], "Doctor med id: " + ID + "skapade en ny patient med ID: " + clientCommand[1]);
+							sendStringToClient("Ny patient skapad. ");
 						} else {
-							audit.log(ID, data[1], "ID: " + ID + "försökte skapa en ny patient med ID: " + data[1] + " men nekades");
-							sendString("Misslyckades. ");
+							audit.log(ID, clientCommand[1], "ID: " + ID + "försökte skapa en ny patient med ID: " + clientCommand[1] + " men nekades");
+							sendStringToClient("Ej access att lägga till patient. ");
 						}
-					} else if (data[0].equals("deletePatient")) {
-						String patientID = data[1];
+					} else if (clientCommand[0].equals("deletePatient")) {
+						String patientID = clientCommand[1];
 						if(type == TYPE_GOVERNMENT){
-							audit.log(ID, data[1], "Gov tog bort patient med ID: " + data[1]);
-							sendString("Patienten är borttagen. ");
+							audit.log(ID, clientCommand[1], "Gov tog bort patient med ID: " + clientCommand[1]);
+							sendStringToClient("Patienten är borttagen. ");
 						} else {
-							audit.log(ID, patientID, "ID: " + ID + "försökte ta bort en patient med ID: " + data[1] + " men nekades");
-							sendString("Misslyckades. ");
+							audit.log(ID, patientID, "ID: " + ID + "försökte ta bort en patient med ID: " + clientCommand[1] + " men nekades");
+							sendStringToClient("Ej access med att ta bort patient. ");
 						}
-					}else if(data[0].equals("writeToJournal")){// addNote:id:entryNo:note
-						String patientID = data[1];
-						String nurseID = data[2];
-						String doctorID = data[3];
-						String text = data[4];						
+					}else if(clientCommand[0].equals("writeToJournal")){
+						String patientID = clientCommand[1];
+						String nurseID = clientCommand[2];
+						String doctorID = clientCommand[3];
+						String text = clientCommand[4];						
 						if(type == TYPE_NURSE){
-							boolean hasRights = jm.writeToJournal(type, patientID, nurse.getNurseID(), doctorID, nurse.getDivision(), text);
+							boolean hasRights = jm.writeToJournal(type, patientID, ID, doctorID, nurse.getDivision(), text);
 							if(hasRights){
-								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + data[1]);
-								sendString("Texten är tillagd.");
+								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + clientCommand[1]);
+								sendStringToClient("Texten är tillagd.");
 							} else {
-								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + data[1]+ " men nekades");
-								sendString("Nekades.");
+								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + clientCommand[1]+ " men nekades");
+								sendStringToClient("Nekades.");
 							}
 						} else if(type == TYPE_DOCTOR){
-							boolean hasRights = jm.writeToJournal(type, patientID, nurseID, doctor.getDoctorID(), doctor.getDivision(), text);
+							boolean hasRights = jm.writeToJournal(type, patientID, nurseID, ID, doctor.getDivision(), text);
 							if(hasRights){
-								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + data[1]);
-								sendString("Texten är tillagd.");
+								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + clientCommand[1]);
+								sendStringToClient("Texten är tillagd.");
 							} else {
-								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + data[1]+ " men nekades");
-								sendString("Nekades.");
+								audit.log(ID, patientID, "ID: " + ID + "skrev ett entry till patient med ID: " + clientCommand[1]+ " men nekades");
+								sendStringToClient("Nekades.");
 							}
 						} else {
-							audit.log(ID, data[1], "ID: " + ID + "skrev ett entry till patient med ID: " + data[1]+ " men nekades");
-							sendString("Nekades.");
+							audit.log(ID, clientCommand[1], "ID: " + ID + "skrev ett entry till patient med ID: " + clientCommand[1]+ " men nekades");
+							sendStringToClient("Nekades.");
 						}
 					}
 				}
@@ -212,7 +209,7 @@ public class Server extends Thread {
 		return s.split(":");
 	}
 
-	public void sendString(String s) {
+	public void sendStringToClient(String s) {
 		try {
 			writer.write(s +"\n");
 			writer.flush();
@@ -224,7 +221,7 @@ public class Server extends Thread {
 		}
 	}
 
-	public String waitForString() {
+	public String readStringFromClient() {
 		while (!socket.isClosed()) {
 			try {
 				String s = null;

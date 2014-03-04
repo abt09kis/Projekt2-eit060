@@ -22,12 +22,12 @@ public class Logger {
 
 	}
 
-	public void log(String performer, String patient, String action){
-		out.println (getDateTime() + " " + performer + " " + action + " for patient " + patient);
+	public void log(String editor, String patient, String action){
+		out.println (getDate() + " " + editor + " " + action + " for patient " + patient);
 		out.flush();
 	}
 
-	private String getDateTime() {
+	private String getDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);

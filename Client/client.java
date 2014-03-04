@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,6 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 public class Client {
-
 	private SSLSocket socket;
 	private BufferedReader reader;
 	private BufferedWriter writer;
@@ -22,17 +21,17 @@ public class Client {
 	private OutputStream outputStream;
 	private OutputStreamWriter outputWriter;
 
-	public Client(String host, int port, String keystore, String password) {
+	public Client(String host, int port, String clientkeystore, String password) {
 		try {
-			System.setProperty("javax.net.ssl.keyStore", keystore);
+			System.setProperty("javax.net.ssl.keyStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/" + clientkeystore);
 			System.setProperty("javax.net.ssl.keyStorePassword", password);
-			System.setProperty("javax.net.ssl.trustStore", "/Users/Kevin/Desktop/Projekt2-eit060/Certificates/clienttruststore");
+			System.setProperty("javax.net.ssl.trustStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/clienttruststore");
 			System.setProperty("javax.net.ssl.trustStorePassword", "eit060");
 
-			SSLSocketFactory factory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+			SSLSocketFactory socketFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
 			
 			System.out.println("The client is connecting to the server through " + host + ":" + port);
-		    socket = (SSLSocket)factory.createSocket(host, port);
+		    socket = (SSLSocket)socketFactory.createSocket(host, port);
 			socket.setUseClientMode(true);
 			socket.startHandshake();
 			System.out.println("Authentification has been made");
@@ -51,42 +50,42 @@ public class Client {
 	
 	public String readJournal(String patientID){
 		String s = "";
-		if(sendString("readJournal:"+patientID)){
-			s = waitForString();
+		if(sendStringToServer("readJournal:"+patientID)){
+			s = readStringFromServer();
 		} 
 		return s;
 	}
 
 	public String newPatient(String patientID){
 		String s = "";
-		if(sendString("newPatient:"+patientID)){
-			s = waitForString();
+		if(sendStringToServer("newPatient:"+patientID)){
+			s = readStringFromServer();
 		}
 		return s;
 	}
 	
 	public String writeToJournal(String patientID, String nurseID, String doctorID, String text){
 		String s = "";
-		if(sendString("writeToJournal:" +patientID+ ":" +nurseID+ ":" +doctorID+ ":" +text)){
-			s = waitForString();
+		if(sendStringToServer("writeToJournal:" +patientID+ ":" +nurseID+ ":" +doctorID+ ":" +text)){
+			s = readStringFromServer();
 		}
 		return s;
 	}
 	
 	public String deletePatient(String patientID){
 		String s = "";
-		if(sendString("deletePatient:" +patientID)){
-			s = waitForString();
+		if(sendStringToServer("deletePatient:" +patientID)){
+			s = readStringFromServer();
 		}
 		return s;
 	}
 
-	public String waitForString() {
+	public String readStringFromServer() {
 		while (!socket.isClosed()) {
 			try {
 				String s = null;
 				if ((s = reader.readLine()) != null) {
-					System.out.println(":>client recieveing " + s);
+					System.out.println("The client received: " + s);
 					return s;
 				}
 			} catch (IOException e) {
@@ -96,13 +95,13 @@ public class Client {
 		return null;
 	}
 
-	public boolean sendString(String s) {
+	public boolean sendStringToServer(String s) {
 		try {
 			writer.write(s +"\n");
 			writer.flush();
 			outputWriter.flush();
 			outputStream.flush();
-			System.out.println(":>client sending " + s);
+			System.out.println("The client is sending " + s);
 			return true;
 		} catch (IOException e) {
 			return false;

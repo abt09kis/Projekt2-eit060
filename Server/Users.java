@@ -42,28 +42,35 @@ public class Users{
 	public void fillTestUsers(){
 		//Skapar en patient Johan
 		Journal johanJournal = new Journal();
-		johanJournal.addEntry(new JournalEntry("n01", "d01", "Hals", "igår"));
-		johanJournal.addEntry(new JournalEntry("n02", "d01", "Ortopeden", "idag"));
+		JournalEntry firstEntry = new JournalEntry("n01", "d01", "Hals", "igÃ¥r");
+		firstEntry.addNote("Journaltext för Johan nummer 1 som är superintressant");
+		johanJournal.addEntry(firstEntry);
+		
+		JournalEntry secondEntry = new JournalEntry("n02", "d01", "Ortopeden", "idag");
+		firstEntry.addNote("Journaltext nummer 2 för Johan som är superduper");
+		johanJournal.addEntry(secondEntry);
 		journalMap.put("p01", johanJournal);
 
 		//Skapar en patient Filippa
 		Journal filippaJournal = new Journal();
-		johanJournal.addEntry( new JournalEntry("n02", "d02", "Hals", "igår"));
+		JournalEntry filippaEntry = new JournalEntry("n02", "d02", "Hals", "igÃ¥r");
+		filippaEntry.addNote("Filippas fina Journaltext och den enda Journaltexten");
+		johanJournal.addEntry(filippaEntry);
 		journalMap.put("p02", filippaJournal);
 
-		//Skapar en läkare Alfred.
+		//Skapar en lÃ¤kare Alfred.
 		Doctor alfred = new Doctor("Hals","d01","Alfred Pennyworth");
 		doctorMap.put("d01", alfred);
 
-		//Skapar en läkare Julian.
+		//Skapar en lÃ¤kare Julian.
 		Doctor julian = new Doctor("Ortopeden", "d02","Julian Grey");
 		doctorMap.put("d02", julian);
 
-		//Skapar en Sjuksköterska Mia.
+		//Skapar en SjukskÃ¶terska Mia.
 		Nurse mia= new Nurse("Hals","Mia Olofsson", "n01");
 		nurseMap.put("n01", mia);
 
-		//Skapar en Sjuksköterska Ann-britt.
+		//Skapar en SjukskÃ¶terska Ann-britt.
 		Nurse annBritt = new Nurse("Ortopeden","Ann-britt Gunnarsson", "n02");
 		nurseMap.put("n02", annBritt);
 	}

@@ -1,74 +1,126 @@
-package Client;
-import java.util.Scanner;
+package client;
 
-public class Main{
-	private Scanner scanner;
-	Client client;
-	
-	public Main(){
-	scanner = new Scanner(System.in);
-	System.out.println("Write your certificate name: ");
-	String certName = scanner.next();
-	System.out.println("Enter Password: ");
-	String password = scanner.next();
-	client = new Client("localhost", 10000, "certificates/" + certName + ".jks", password);
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+public class Client {
+	private SSLSocket socket;
+	private BufferedReader reader;
+	private BufferedWriter writer;
+
+	private InputStream inputStream;
+	private InputStreamReader inputReader;
+	private OutputStream outputStream;
+	private OutputStreamWriter outputWriter;
+
+	public Client(String host, int port, String clientkeystore, String password) {
+		try {
+			System.setProperty("javax.net.ssl.keyStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/" + clientkeystore);
+			System.setProperty("javax.net.ssl.keyStorePassword", password);
+			System.setProperty("javax.net.ssl.trustStore", "C:/Users/Philip/Desktop/Server/Server/src/Server/certificates/clienttruststore");
+			System.setProperty("javax.net.ssl.trustStorePassword", "eit060");
+
+			SSLSocketFactory socketFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+			
+			System.out.println("The client is connecting to the server through " + host + ":" + port);
+		    socket = (SSLSocket)socketFactory.createSocket(host, port);
+			socket.setUseClientMode(true);
+			socket.startHandshake();
+			System.out.println("Authentification has been made");
+
+			inputStream = socket.getInputStream();
+			inputReader = new InputStreamReader(inputStream);
+			reader = new BufferedReader(inputReader);
+
+			outputStream = socket.getOutputStream();
+			outputWriter = new OutputStreamWriter(outputStream);
+			writer = new BufferedWriter(outputWriter);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
-	public static void main(String[] args){
-		Main m = new Main();
-		m.doCommands();
+	public String readJournal(String patientID){
+		String s = "";
+		if(sendStringToServer("readJournal:"+patientID)){
+			s = readStringFromServer();
+		} 
+		return s;
 	}
 
-	public void doCommands(){
-		boolean closeProgram = false;
-		while(!closeProgram){
-			System.out.println("Welcome, what would you like to do?");
-			System.out.println("1. Read a journal");
-			System.out.println("2. Write to a journal");
-			System.out.println("3. Add a new patient");
-			System.out.println("4. Deleta a patient");
-			System.out.println("5. Exit program");
-			int chosenOption = scanner.nextInt();
-			String s;
-			switch(chosenOption){
-			case 1: 
-				System.out.println("Write patientID");
-				s = client.readJournal(scanner.next());
-				System.out.println(s);
-				break;
-			case 2:
-				System.out.println("Write PatientID");
-				String patientID = scanner.next();
-				System.out.println("Write nurseID");
-				String nurseID = scanner.next();
-				System.out.println("Write doctorID");
-				String doctorID = scanner.next();
-				System.out.println("Write text");
-				String text = scanner.next();
-				s = client.writeToJournal(patientID, nurseID, doctorID, text);
-				System.out.println(s);
-				break;
-			case 3:
-				System.out.println("Write patientID");
-				s = client.newPatient(scanner.next());
-				System.out.println(s);
-				break;
-			case 4:
-				System.out.println("Write patientID");
-				s = client.deletePatient(scanner.next());
-				System.out.println(s);
-				break;
-			case 5: 
-				closeProgram = true;
-				break;
-			default: 
-				System.out.println("Ogiltigt kommando");
-				break;
+	public String newPatient(String patientID){
+		String s = "";
+		if(sendStringToServer("newPatient:"+patientID)){
+			s = readStringFromServer();
+		}
+		return s;
+	}
+	
+	public String writeToJournal(String patientID, String nurseID, String doctorID, String text){
+		String s = "";
+		if(sendStringToServer("writeToJournal:" +patientID+ ":" +nurseID+ ":" +doctorID+ ":" +text)){
+			s = readStringFromServer();
+		}
+		return s;
+	}
+	
+	public String deletePatient(String patientID){
+		String s = "";
+		if(sendStringToServer("deletePatient:" +patientID)){
+			s = readStringFromServer();
+		}
+		return s;
+	}
+
+	public String readStringFromServer() {
+		while (!socket.isClosed()) {
+			try {
+				String s = null;
+				if ((s = reader.readLine()) != null) {
+					System.out.println("The client received: " + s);
+					return s;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+		}
+		return null;
+	}
+
+	public boolean sendStringToServer(String s) {
+		try {
+			writer.write(s +"\n");
+			writer.flush();
+			outputWriter.flush();
+			outputStream.flush();
+			System.out.println("The client is sending " + s);
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+	public void close() {
+		try {
+			reader.close();
+			inputReader.close();
+			inputStream.close();
+
+			writer.close();
+			outputWriter.close();
+			outputStream.close();
+
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
-
-
-
-
